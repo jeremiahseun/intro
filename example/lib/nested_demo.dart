@@ -36,7 +36,7 @@ class NestedDemoPage extends StatelessWidget {
             color: Colors.lime,
             fontSize: 16,
           ),
-          align: IntroCardAlign.outsideBottomLeft,
+          align: IntroCardAlign.center,
         ),
         highlightDecoration: IntroHighlightDecoration(
           border: Border.all(color: Colors.lime, width: 2),
@@ -150,10 +150,12 @@ class NestedDemoPage extends StatelessWidget {
                   cardDecoration: const IntroCardDecoration(
                     showCloseButton: true,
                   ),
-                  child: const Block(
-                    label: "E",
-                    color: Colors.purple,
-                    size: Size(120, 120),
+                  child: const Expanded(
+                    child: Block(
+                      label: "E",
+                      color: Colors.purple,
+                      size: Size(120, 120),
+                    ),
                   ),
                 ),
               ],

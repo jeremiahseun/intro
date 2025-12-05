@@ -1,6 +1,8 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intro/intro.dart';
+
 import 'block.dart';
 import 'nested_demo.dart';
 
@@ -12,14 +14,13 @@ void main() {
       showPreviousButton: false,
       nextButtonStyle: ButtonStyle(
         backgroundColor:
-            MaterialStateColor.resolveWith((states) => Colors.lightBlue),
-        shape: MaterialStateProperty.resolveWith(
+            WidgetStateColor.resolveWith((states) => Colors.lightBlue),
+        shape: WidgetStateProperty.resolveWith(
             (states) => const RoundedRectangleBorder()),
       ),
       closeButtonStyle: ButtonStyle(
-        backgroundColor:
-            MaterialStateColor.resolveWith((states) => Colors.lime),
-        shape: MaterialStateProperty.resolveWith(
+        backgroundColor: WidgetStateColor.resolveWith((states) => Colors.lime),
+        shape: WidgetStateProperty.resolveWith(
             (states) => const RoundedRectangleBorder()),
       ),
     ),
@@ -30,9 +31,9 @@ void main() {
           onPressed: controller.close,
           style: ButtonStyle(
             foregroundColor:
-                MaterialStateColor.resolveWith((states) => Colors.white70),
+                WidgetStateColor.resolveWith((states) => Colors.white70),
             backgroundColor:
-                MaterialStateColor.resolveWith((states) => Colors.white24),
+                WidgetStateColor.resolveWith((states) => Colors.white24),
           ),
           child: const Text("Exit"),
         ),
@@ -205,9 +206,9 @@ class _HomePageState extends State<HomePage> {
         nextButtonLabel: "→",
         previousButtonStyle: ButtonStyle(
           backgroundColor:
-              MaterialStateColor.resolveWith((states) => Colors.blueGrey),
+              WidgetStateColor.resolveWith((states) => Colors.blueGrey),
           textStyle:
-              MaterialStateTextStyle.resolveWith((states) => const TextStyle(
+              WidgetStateTextStyle.resolveWith((states) => const TextStyle(
                     inherit: false,
                     fontSize: 24.0,
                     fontFamily: "STHupo",
@@ -215,9 +216,9 @@ class _HomePageState extends State<HomePage> {
         ),
         closeButtonStyle: ButtonStyle(
           backgroundColor:
-              MaterialStateColor.resolveWith((states) => Colors.pink),
+              WidgetStateColor.resolveWith((states) => Colors.pink),
           textStyle:
-              MaterialStateTextStyle.resolveWith((states) => const TextStyle(
+              WidgetStateTextStyle.resolveWith((states) => const TextStyle(
                     inherit: false,
                     fontSize: 24.0,
                     fontFamily: "STHupo",
@@ -225,9 +226,9 @@ class _HomePageState extends State<HomePage> {
         ),
         nextButtonStyle: ButtonStyle(
           backgroundColor:
-              MaterialStateColor.resolveWith((states) => Colors.green),
+              WidgetStateColor.resolveWith((states) => Colors.green),
           textStyle:
-              MaterialStateTextStyle.resolveWith((states) => const TextStyle(
+              WidgetStateTextStyle.resolveWith((states) => const TextStyle(
                     inherit: false,
                     fontSize: 24.0,
                     fontFamily: "STHupo",
