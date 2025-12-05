@@ -112,18 +112,24 @@ class IntroStepCard extends StatelessWidget {
             IntroCardAlign.outsideLeftBottom,
             IntroCardAlign.outsideRightBottom,
           ].contains(params.actualCardAlign);
+          final alignToCenter = params.actualCardAlign == IntroCardAlign.center;
 
           for (var i = 1; i < children.length; i += 2) {
             children.insert(i, const SizedBox(width: 10));
           }
 
           return Column(
-            crossAxisAlignment: nonSize && alignToRight
-                ? CrossAxisAlignment.end
-                : CrossAxisAlignment.start,
-            mainAxisAlignment: nonSize && alignToBottom
-                ? MainAxisAlignment.end
-                : MainAxisAlignment.start,
+            crossAxisAlignment: alignToCenter
+                ? CrossAxisAlignment.center
+                : nonSize && alignToRight
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
+            mainAxisAlignment: alignToCenter
+                ? MainAxisAlignment.center
+                : nonSize && alignToBottom
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               child,
               const SizedBox(height: 20),

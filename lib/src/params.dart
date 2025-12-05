@@ -37,6 +37,8 @@ enum IntroCardAlign {
 
   /// The card widget is located to the bottom of the right of the target widget.
   outsideRightBottom,
+
+  center
 }
 
 /// Parameters about a step.
@@ -57,10 +59,12 @@ class IntroParams {
 
   /// The geometry for the target widget of this step.
   Rect get targetRect {
-    assert(_state.mounted, "[Intro] The target widget for step $step has been unmounted.");
+    assert(_state.mounted,
+        "[Intro] The target widget for step $step has been unmounted.");
     final box = context.findRenderObject() as RenderBox;
     final offset = box.localToGlobal(Offset.zero);
-    assert(box.hasSize, "[Intro] Unable to get the size of the target widget for step $step.");
+    assert(box.hasSize,
+        "[Intro] Unable to get the size of the target widget for step $step.");
     final size = box.size;
     return Rect.fromPoints(offset, size.bottomRight(offset));
   }
@@ -162,6 +166,41 @@ class IntroParams {
         return buildRect(left: hRight + mLeft, top: hTop);
       case IntroCardAlign.outsideRightBottom:
         return buildRect(left: hRight + mLeft, bottom: hBottom);
+      case IntroCardAlign.center:
+        final padding = MediaQuery.of(context).padding;
+        final safeTop = padding.top + mTop;
+        final safeBottom = padding.bottom + mBottom;
+
+        // Try bottom placement first
+        final bottomSpace = screen.height - hBottom - safeBottom;
+        final topSpace = hTop - safeTop;
+        const minSpace = 150.0; // Minimum space needed for card
+
+        if (bottomSpace >= minSpace) {
+          // Prefer bottom placement
+          return buildRect(
+            left: mLeft,
+            right: screen.width - mRight,
+            top: hBottom + mTop,
+            bottom: screen.height - safeBottom,
+          );
+        } else if (topSpace >= minSpace) {
+          // Fall back to top placement
+          return buildRect(
+            left: mLeft,
+            right: screen.width - mRight,
+            top: safeTop,
+            bottom: hTop - mBottom,
+          );
+        } else {
+          // Not enough space at top or bottom, use full center
+          return buildRect(
+            left: mLeft,
+            right: screen.width - mRight,
+            top: safeTop,
+            bottom: screen.height - safeBottom,
+          );
+        }
     }
   }
 

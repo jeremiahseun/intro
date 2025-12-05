@@ -75,7 +75,7 @@ class IntroStepTarget extends StatefulWidget {
     this.onTargetDispose,
     this.onHighlightTap,
     required this.child,
-  })  : assert(step > 0 && step <= controller.stepCount,
+  }) : assert(step > 0 && step <= controller.stepCount,
             "The [step: $step] out of range 1..${controller.stepCount}");
 
   @override
@@ -118,7 +118,10 @@ class _IntroStepTargetState extends State<IntroStepTarget>
     if (widget.controller._isOpened &&
         widget.controller.currentStep == widget.step) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        widget.controller.refresh();
+        // Check again if still opened before refreshing
+        if (widget.controller._isOpened) {
+          widget.controller.refresh();
+        }
       });
     }
   }

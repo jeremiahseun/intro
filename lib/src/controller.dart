@@ -396,11 +396,18 @@ class IntroController {
     final rect = params.cardRect;
 
     final screen = MediaQuery.of(context).size;
-    final left = rect.left.isInfinite ? null : rect.left;
-    final right = rect.right.isInfinite ? null : (screen.width - rect.right);
-    final top = rect.top.isInfinite ? null : rect.top;
-    final bottom =
-        rect.bottom.isInfinite ? null : (screen.height - rect.bottom);
+
+    // Convert infinite values and constrain within screen bounds
+    var left = rect.left.isInfinite ? null : rect.left;
+    var right = rect.right.isInfinite ? null : (screen.width - rect.right);
+    var top = rect.top.isInfinite ? null : rect.top;
+    var bottom = rect.bottom.isInfinite ? null : (screen.height - rect.bottom);
+
+    // Ensure card doesn't overflow screen bounds
+    if (left != null && left < 0) left = 0;
+    if (top != null && top < 0) top = 0;
+    if (right != null && right < 0) right = 0;
+    if (bottom != null && bottom < 0) bottom = 0;
 
     final decoration = intro.cardDecoration
         .mergeTo(widget.cardDecoration)
@@ -443,6 +450,7 @@ class IntroController {
           .onStepWillDeactivate
           ?.call(toStep);
     }
+
     if (toStep != 0) {
       await _targets[toStep]?._state.widget.onStepWillActivate?.call(fromStep);
     }
