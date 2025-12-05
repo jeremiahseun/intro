@@ -440,6 +440,33 @@ class IntroController {
     });
   }
 
+  Future<void> _scrollToTargetIfNeeded(int step) async {
+    if (step == 0) return;
+
+    final params = _targets[step];
+    if (params == null) return;
+
+    try {
+      final context = params.context;
+      final renderObject = context.findRenderObject();
+
+      if (renderObject != null) {
+        // Use ensureVisible to scroll the target into view
+        await Scrollable.ensureVisible(
+          context,
+          duration: intro.animationDuration,
+          curve: Curves.easeInOut,
+          alignment: 0.5, // Center the target in the viewport
+        );
+
+        // Small delay to allow scroll animation to complete
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
+    } catch (e) {
+      // Ignore errors if widget is not in a scrollable or other issues
+    }
+  }
+
   Future<void> _switchStep(int fromStep, int toStep,
       [bool needRefresh = true]) async {
     _switching = true;
@@ -450,6 +477,9 @@ class IntroController {
           .onStepWillDeactivate
           ?.call(toStep);
     }
+
+    // Auto-scroll to target before activating
+    await _scrollToTargetIfNeeded(toStep);
 
     if (toStep != 0) {
       await _targets[toStep]?._state.widget.onStepWillActivate?.call(fromStep);
